@@ -8,12 +8,12 @@ module Rack
     # - Rack Middleware implementation
 
     def initialize(app, opts={})
-      app_class = opts[:flash_app_class] || 
-        defined?(Sinatra::Base) && Sinatra::Base ||
-        self.class.rack_builder.leaf_app.class
-      app_class.class_eval do
-        def flash; env['rack.flash'] end
+      if klass = app_class(app, opts)
+        klass.class_eval do
+          def flash; env['rack.flash'] end
+        end
       end
+
       @app, @opts = app, opts
     end
 
@@ -31,6 +31,15 @@ module Rack
       end
 
       res
+    end
+
+    private
+
+    def app_class(app, opts)
+      return nil if opts.has_key?(:helper) and not opts[:helper]
+      opts[:flash_app_class] ||
+        defined?(Sinatra::Base) && Sinatra::Base ||
+        self.class.rack_builder.leaf_app.class
     end
   end
 end
