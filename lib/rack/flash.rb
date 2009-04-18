@@ -8,7 +8,8 @@ module Rack
     # - Rack Middleware implementation
 
     def initialize(app, opts={})
-      #unless self.class.rack_builder.ins.any? {|tuple| tuple.is_a?(Array) && tuple.first WHAT OPERATOR GOES HERE Rack::Session }
+      #Anyone know how to check this the best x.is_in_namespace?(Rack::Session) where x is like Rack::Session::Cookie
+      #unless self.class.rack_builder.ins.any? {|tuple| tuple.is_a?(Array) && tuple.first ???? HERE Rack::Session }
       #  raise Rack::Flash::SessionUnavailable.new('Rack::Flash depends on session middleware.')
       #end
       
