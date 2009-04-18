@@ -8,7 +8,7 @@ module Rack
     # - Rack Middleware implementation
 
     def initialize(app, opts={})
-      #unless self.class.rack_builder.ins.any? {|tuple| tuple.is_a?(Array) && tuple.first == Rack::Session }
+      #unless self.class.rack_builder.ins.any? {|tuple| tuple.is_a?(Array) && tuple.first WHAT OPERATOR GOES HERE Rack::Session }
       #  raise Rack::Flash::SessionUnavailable.new('Rack::Flash depends on session middleware.')
       #end
       
@@ -18,7 +18,6 @@ module Rack
     end
 
     def call(env)
-      puts "I'm called and I'll call back down the chain to #{@app}"
       env['rack.flash'] ||= Rack::Flash::FlashHash.new(env['rack.session'], @opts)
 
       if @opts[:sweep]
