@@ -1,4 +1,4 @@
-module Rack
+module Rack  
   class Flash
 
     # -------------------------------------------------------------------------
@@ -6,9 +6,7 @@ module Rack
 
     def initialize(app, opts={})
       if klass = app_class(app, opts)
-        klass.class_eval do
-          def flash; env['rack.flash'] end
-        end
+        klass.send :include, FlashSugar
       end
 
       @app, @opts = app, opts
