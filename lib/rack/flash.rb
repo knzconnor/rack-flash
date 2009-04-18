@@ -31,13 +31,11 @@ module Rack
     private
 
     def app_class(opts)
-      case klass = opts[:sugar]
-      when :sinatra
-        Sinatra::Base
-      when :auto
-        self.class.rack_builder.leaf_app.class
+      case klass = opts[:sugar_target]
       when Class
         klass
+      when :auto
+        self.class.rack_builder.leaf_app.class
       #when nil, false, :none aka else
       #  nil
       end
