@@ -1,8 +1,5 @@
 module Rack
   class Flash
-    # Raised when the session passed to FlashHash initialize is nil. This
-    # is usually an indicator that session middleware is not in use.
-    class SessionUnavailable < StandardError; end
 
     # -------------------------------------------------------------------------
     # - Rack Middleware implementation
