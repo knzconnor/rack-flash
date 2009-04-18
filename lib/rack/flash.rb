@@ -13,6 +13,7 @@ module Rack
     end
 
     def call(env)
+      puts "I'm called and I'll call back down the chain to #{@app}"
       env['rack.flash'] ||= Rack::Flash::FlashHash.new(env['rack.session'], @opts)
 
       if @opts[:sweep]
@@ -34,9 +35,9 @@ module Rack
       case klass = target
       when Class
         klass
-      #when :auto
-      #  self.class.rack_builder.leaf_app.class
-      #when nil, false, :none aka else
+      when :auto
+       self.class.rack_builder.leaf_app.class
+      #else #when nil, false, :none, etc
       #  nil
       end
     end
