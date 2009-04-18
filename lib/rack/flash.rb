@@ -41,8 +41,8 @@ module Rack
         target.each { |klass| klass.send :include, FlashSugar }
       when Class
         target.send :include, FlashSugar
-      when :auto
-        self.class.rack_builder.inner_app.class.send :include, FlashSugar
+      #when :auto
+      #  self.class.rack_builder.inner_app.class.send :include, FlashSugar
       #else #when nil, false, :none, etc
       end
     end
