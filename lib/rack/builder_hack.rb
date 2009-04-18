@@ -1,6 +1,29 @@
-module Rack
-  class Builder
-    include Rack::BuilderLeafSugar
+module Rack  
+  module BuilderInsSugar
+    def self.included(klass)
+      klass.send :alias_method, :use_without_back_reference, :use
+      klass.send :alias_method, :use, :use_with_back_reference
+      
+      klass.send :alias_method, :run_without_back_reference, :run
+      klass.send :alias_method, :run, :run_with_back_reference
+    end
+
+    attr_accessor :ins
+    def use_with_back_reference(middleware, *args, &block)
+      middleware.extend BuilderBackReference
+      middleware.rack_builder = self
+      use_without_back_reference(middleware, *args, &block)
+    end
+
+    def run_with_back_reference(app)
+      app.class.extend BuilderBackReference
+      app.class.rack_builder = self
+      run_without_back_reference(app)
+    end
+    
+    def inner_app
+      ins.last
+    end
   end
   
   module BuilderBackReference
@@ -12,30 +35,7 @@ module Rack
     end
   end
   
-  module BuilderLeafSugar
-    def self.included(klass)
-      klass.send :alias_method, :use_without_leaf_sugar, :use
-      klass.send :alias_method, :use, :use_with_leaf_sugar
-      
-      klass.send :alias_method, :run_without_leaf_sugar, :run
-      klass.send :alias_method, :run, :run_with_leaf_sugar
-    end
-
-    attr_accessor :ins
-    def use_with_leaf_sugar(middleware, *args, &block)
-      middleware.extend BuilderBackReference
-      middleware.rack_builder = self
-      use_without_leaf_sugar(middleware, *args, &block)
-    end
-
-    def run_with_leaf_sugar(app)
-      app.class.extend BuilderBackReference
-      app.class.rack_builder = self
-      run_without_leaf_sugar(app)
-    end
-    
-    def leaf_app
-      ins.last
-    end
+  class Builder
+    include Rack::BuilderInsSugar
   end
 end

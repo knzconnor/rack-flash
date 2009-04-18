@@ -36,7 +36,7 @@ module Rack
       when Class
         klass
       when :auto
-       self.class.rack_builder.leaf_app.class
+       self.class.rack_builder.inner_app.class
       #else #when nil, false, :none, etc
       #  nil
       end
