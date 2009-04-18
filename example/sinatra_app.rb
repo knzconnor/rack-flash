@@ -3,7 +3,8 @@ require 'sinatra/base'
 require File.dirname(__FILE__) + '/../lib/rack-flash'
 
 class MyApp < Sinatra::Base
-  use Rack::Flash
+  include Rack::FlashSugar
+  use Rack::Flash#, :sugar_target => MyApp
 
   set :root, File.dirname(__FILE__)
   set :layout, true
