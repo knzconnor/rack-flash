@@ -12,9 +12,7 @@ module Rack
       #  raise Rack::Flash::SessionUnavailable.new('Rack::Flash depends on session middleware.')
       #end
       
-      if klass = app_class(opts[:sugar_target])
-        klass.send :include, FlashSugar
-      end
+      add_sugar(opts[:sugar_target])
 
       @app, @opts = app, opts
     end
@@ -38,14 +36,15 @@ module Rack
 
     private
 
-    def app_class(target)
-      case klass = target
+    def add_sugar(target)
+      case target
+      when Array
+        target.each { |klass| klass.send :include, FlashSugar }
       when Class
-        klass
+        target.send :include, FlashSugar
       when :auto
-        self.class.rack_builder.inner_app.class
+        self.class.rack_builder.inner_app.class.send :include, FlashSugar
       #else #when nil, false, :none, etc
-      #  nil
       end
     end
   end
