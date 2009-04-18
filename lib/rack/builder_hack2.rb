@@ -34,7 +34,7 @@ module Rack
     end
 
     def use(middleware, *args, &block)
-      @ins << [middleware, *args, &block]
+      @ins << [middleware, args, block]
     end
 
     def run(app)
@@ -53,7 +53,7 @@ module Rack
     def to_app
       @ins[-1] = Rack::URLMap.new(@ins.last)  if Hash === @ins.last
       inner_app = @ins.last
-      @ins[0...-1].reverse.inject(inner_app) { |a, e| e[0].new(a, e[1], e[2]); }
+      @ins[0...-1].reverse.inject(inner_app) { |a, e| puts "newing #{e[0]}"; e[0].new(a, *e[1], &e[2]); }
     end
 
     def call(env)
