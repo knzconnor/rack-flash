@@ -5,7 +5,7 @@ module Rack
     # - Rack Middleware implementation
 
     def initialize(app, opts={})
-      if klass = app_class(opts)
+      if klass = app_class(opts[:sugar_target])
         klass.send :include, FlashSugar
       end
 
@@ -30,12 +30,12 @@ module Rack
 
     private
 
-    def app_class(opts)
-      case klass = opts[:sugar_target]
+    def app_class(target)
+      case klass = target
       when Class
         klass
-      when :auto
-        self.class.rack_builder.leaf_app.class
+      #when :auto
+      #  self.class.rack_builder.leaf_app.class
       #when nil, false, :none aka else
       #  nil
       end

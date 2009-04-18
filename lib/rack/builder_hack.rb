@@ -1,5 +1,5 @@
-module Rack
-  class Builder
-    include Rack::BuilderLeafSugar
-  end
-end
+# module Rack
+#   class Builder
+#     include Rack::BuilderLeafSugar
+#   end
+# end
