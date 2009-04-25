@@ -1,18 +1,7 @@
 module Rack  
-  class Flash
-    # Raised when the session passed to FlashHash initialize is nil. This
-    # is usually an indicator that session middleware is not in use.
-    class SessionUnavailable < StandardError; end
-    
-    # -------------------------------------------------------------------------
-    # - Rack Middleware implementation
+  class Flash    
 
     def initialize(app, opts={})
-      #Anyone know how to check this the best x.is_in_namespace?(Rack::Session) where x is like Rack::Session::Cookie
-      #unless self.class.rack_builder.ins.any? {|tuple| tuple.is_a?(Array) && tuple.first ???? HERE Rack::Session }
-      #  raise Rack::Flash::SessionUnavailable.new('Rack::Flash depends on session middleware.')
-      #end
-      
       add_sugar(opts[:sugar_target])
 
       @app, @opts = app, opts
@@ -37,15 +26,9 @@ module Rack
     private
 
     def add_sugar(target)
-      case target
-      when Array
-        target.each { |klass| klass.send :include, FlashSugar }
-      when Class
-        target.send :include, FlashSugar
-      #when :auto
-      #  self.class.rack_builder.inner_app.class.send :include, FlashSugar
-      #else #when nil, false, :none, etc
-      end
+      return unless target
+      target = [target] unless target.is_a?(Array)
+      target.each { |klass| klass.send :include, FlashSugar }
     end
   end
 end
