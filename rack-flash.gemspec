@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version = "0.0.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Pat Nakajima", "Tim Connor"]
+  s.authors = ["Pat Nakajima"]
   s.date = %q{2009-04-24}
   s.email = %q{patnakajima@gmail.com}
   s.files = [
