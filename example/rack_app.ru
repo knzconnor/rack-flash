@@ -4,7 +4,7 @@ require 'rack/showexceptions'
 require 'rack/session/cookie'
 require File.dirname(__FILE__) + '/../lib/rack-flash'
 
-class Base
+class RackApp
   attr_accessor :env
   
   def call(env)
@@ -17,6 +17,6 @@ class Base
   end
 end
 use Rack::Session::Cookie
-use Rack::Flash, :sugar_target => Base
+use Rack::Flash, :sugar_target => RackApp
 use Rack::ShowExceptions
-run Base.new
+run RackApp.new
